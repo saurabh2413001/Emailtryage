@@ -2,6 +2,7 @@ name: email-triage-env
 version: 1.0
 description: >
   A reinforcement learning environment for email triage tasks: classify, prioritize, and respond.
+env_url: https://saurabhbhati-email-triage.hf.space
 tasks:
   - easy
   - medium
