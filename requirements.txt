@@ -1,3 +1,2 @@
-pydantic
 openai
 python-dotenv
