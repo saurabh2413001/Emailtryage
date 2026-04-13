@@ -46,18 +46,57 @@ EXAMPLES = [
 ]
 
 with gr.Blocks(title="📧 Email Triage AI") as demo:
-    gr.Markdown("# 📧 Email Triage AI\nPowered by Llama 3.1 · Paste an email and get instant classification")
-    email_input = gr.Textbox(label="📨 Email Content", placeholder="Paste your email here...", lines=7)
+    gr.Markdown("# 📧 Email Triage AI\nPowered by Llama 3.1 · Paste your email on the left, get results on the right.")
+
     with gr.Row():
-        submit_btn = gr.Button("🔍 Classify Email", variant="primary")
-        clear_btn = gr.Button("🗑️ Clear", variant="secondary")
-    with gr.Row():
-        category_out = gr.Textbox(label="📂 Category", interactive=False)
-        priority_out = gr.Textbox(label="🚨 Priority", interactive=False)
-    response_out = gr.Textbox(label="💬 Suggested Response", interactive=False, lines=3)
-    gr.Examples(examples=EXAMPLES, inputs=email_input, label="📋 Try an Example")
-    submit_btn.click(fn=classify_email, inputs=email_input, outputs=[category_out, priority_out, response_out])
-    clear_btn.click(fn=lambda: ("", "", "", ""), outputs=[email_input, category_out, priority_out, response_out])
+        # LEFT SIDE - Input
+        with gr.Column(scale=1):
+            gr.Markdown("### ✉️ Your Email")
+            email_input = gr.Textbox(
+                label="Paste email here",
+                placeholder="Paste your email content here...",
+                lines=15,
+                max_lines=20,
+            )
+            with gr.Row():
+                submit_btn = gr.Button("🔍 Classify", variant="primary", scale=2)
+                clear_btn = gr.Button("🗑️ Clear", variant="secondary", scale=1)
+            gr.Examples(
+                examples=EXAMPLES,
+                inputs=email_input,
+                label="📋 Try an Example",
+            )
+
+        # RIGHT SIDE - Output
+        with gr.Column(scale=1):
+            gr.Markdown("### 📊 Analysis Results")
+            category_out = gr.Textbox(
+                label="📂 Category",
+                interactive=False,
+                lines=2,
+            )
+            priority_out = gr.Textbox(
+                label="🚨 Priority",
+                interactive=False,
+                lines=2,
+            )
+            response_out = gr.Textbox(
+                label="💬 Suggested Response",
+                interactive=False,
+                lines=6,
+            )
+            gr.Markdown("---")
+            gr.Markdown("💡 **How it works:** The AI reads your email and classifies it into spam/important/normal, assigns a priority level, and suggests a short reply.")
+
+    submit_btn.click(
+        fn=classify_email,
+        inputs=email_input,
+        outputs=[category_out, priority_out, response_out],
+    )
+    clear_btn.click(
+        fn=lambda: ("", "", "", ""),
+        outputs=[email_input, category_out, priority_out, response_out],
+    )
 
 if __name__ == "__main__":
     demo.launch(server_name="0.0.0.0", server_port=7860)
