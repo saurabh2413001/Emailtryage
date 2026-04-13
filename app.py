@@ -69,6 +69,9 @@ with gr.Blocks(title="📧 Email Triage AI") as demo:
 
         # RIGHT SIDE - Output
         with gr.Column(scale=1):
+            gr.Markdown("")
+            gr.Markdown("")
+            gr.Markdown("")
             gr.Markdown("### 📊 Analysis Results")
             category_out = gr.Markdown(value="", label="📂 Category")
             priority_out = gr.Markdown(value="", label="🚨 Priority")
