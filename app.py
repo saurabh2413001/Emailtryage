@@ -34,7 +34,7 @@ def classify_email(email_text: str):
                 priority = line.split(":", 1)[1].strip().capitalize()
             elif line.lower().startswith("response:"):
                 suggestion = line.split(":", 1)[1].strip()
-        return category, priority, suggestion
+        return f"## 📂 {category}", f"## 🚨 {priority}", f"### 💬 {suggestion}"
     except Exception as e:
         return f"Error: {str(e)}", "", ""
 
@@ -70,21 +70,9 @@ with gr.Blocks(title="📧 Email Triage AI") as demo:
         # RIGHT SIDE - Output
         with gr.Column(scale=1):
             gr.Markdown("### 📊 Analysis Results")
-            category_out = gr.Textbox(
-                label="📂 Category",
-                interactive=False,
-                lines=2,
-            )
-            priority_out = gr.Textbox(
-                label="🚨 Priority",
-                interactive=False,
-                lines=2,
-            )
-            response_out = gr.Textbox(
-                label="💬 Suggested Response",
-                interactive=False,
-                lines=6,
-            )
+            category_out = gr.Markdown(value="", label="📂 Category")
+            priority_out = gr.Markdown(value="", label="🚨 Priority")
+            response_out = gr.Markdown(value="", label="💬 Suggested Response")
             gr.Markdown("---")
             gr.Markdown("💡 **How it works:** The AI reads your email and classifies it into spam/important/normal, assigns a priority level, and suggests a short reply.")
 
